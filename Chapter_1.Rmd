@@ -1,0 +1,29 @@
+---
+title: "Algorithms Chapter 1"
+output: html_notebook
+---
+
+# Fibonnaci
+
+Each number in the Fibonacci sequence is the sum of its two predecessors. 0, 1, 1, 2, 3, 5, 8, 13, 21, 34. It grows almost exponentially. A simple but very slow algorithm to calculate the n th position of the sequence would be an exponential implementation.
+
+```{r}
+library(tidyverse)
+fib_exp <- function(n) {
+  if (n == 1) return(0)
+  if (n == 2) return(1)
+  return(fib_exp(n-1) + fib_exp(n-2))
+}
+exponential_time <- data_frame(n = 1:30, time = 0)
+for (i in 1:30) {
+  exponential_time[i, 2] <- system.time(fib_exp(i))[3]
+}
+
+ggplot(exponential_time, aes(n, time)) +
+  geom_line() +
+  ggtitle("Computation time of the recursive implementation")
+```
+
+An algorithm may yield the correct result, but if it is too slow it is useless. Therefore we measure the time it takes as a function of n. We always hope that we can do better.
+
+With the current implementation the number of computer steps needed is larger than the actual value at n. Making this useless, the computation time increases exponentially.
